@@ -1,5 +1,5 @@
 {
-  "name": "sergeant-socket",
+  "name": "commander-cortex",
   "version": "1",
   "description": "a modular generals.io bot that implements advanced learning techniques",
   "main": "out/index.js",
@@ -7,11 +7,16 @@
   "dependencies": {
     "@redis/client": "^1.5.6",
     "commander": "^10.0.0",
-    "socket.io-client": "^2.5.0"
+    "ink": "^4.2.0",
+    "ink-big-text": "^2.0.0",
+    "react": "^18.2.0"
   },
   "devDependencies": {
+    "@sindresorhus/tsconfig": "^3.0.1",
     "@types/node": "^18.15.5",
-    "typescript": "^5.0.2"
+    "@types/react": "^18.2.7",
+    "react-devtools-core": "^4.27.8",
+    "typescript": "^5.0.4"
   },
   "scripts": {
     "build": "tsc --build",

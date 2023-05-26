@@ -1,14 +1,11 @@
 import { Command } from 'commander'
 import { Log } from './utils.js'
-import { App } from './app.js'
+import App from './app.js'
 import fs from 'node:fs/promises'
+import {renderUI} from './components/ui.js'
 
-// read configuration files
-const pkg = JSON.parse(await fs.readFile('package.json', 'utf8'))
-const config = JSON.parse(await fs.readFile('config.json', 'utf8'))
-const gameConfig = config.gameConfig
-const redisConfig = config.redisConfig
-gameConfig.BOT_CLASS = 'cortex'
+const packageJsonPath = new URL('../package.json', import.meta.url)
+const pkg = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
 
 Log.stdout(`[initilizing] ${pkg.name} v${pkg.version}`)
 
@@ -19,31 +16,48 @@ program
 	.version(pkg.version)
 	.description(pkg.description)
 	.option('-d, --debug', 'enable debugging', false)
-	.option('-s, --set-username', `attempt to set username: ${gameConfig.username}`, false)
+	.arguments('<configFile>')
 	.showHelpAfterError()
-	.parse()
+	.action(run)
 
-// read and process command line options
-const options = program.opts()
-gameConfig.setUsername = options.setUsername
-Log.setDebugOutput(options.debug)
+let app: App
 
-// debug output
-Log.debug("[debug] debugging enabled")
-Log.debugObject('Game configuration', gameConfig)
-Log.debugObject('Command Line Options', options)
+async function run(configFile: string) {
+	// read and process command line options
+	const options = program.opts()
+	const config = JSON.parse(await fs.readFile(configFile, 'utf8'))
+	const gameConfig = config.gameConfig
+	const redisConfig = config.redisConfig
+	gameConfig.BOT_ID_PREFIX = gameConfig.BOT_ID_PREFIX || 'cortex'
+	gameConfig.setUsername = options['setUsername']
+	Log.setDebugOutput(options['debug'])
 
-// start the application to initiate redis and socket connections
-let app = new App(gameConfig, redisConfig)
-Log.stdout(`[initilizing] botId: ${app.botId}`)
+	// debug output
+	Log.debug("[debug] debugging enabled")
+	Log.debugObject('Game configuration', gameConfig)
+	Log.debugObject('Command Line Options', options)
+
+	// start the application to initiate redis and socket connections
+	app = new App(gameConfig, redisConfig)
+	Log.stdout(`[initilizing] botId: ${app.botId}`)
+
+	Log.clearScreen()
+	renderUI(app)
+}
+
+await program.parseAsync()
 
 // gracefully exit on SIGINT and SIGTERM
-process.once('SIGINT', async (code) => {
+process.once('SIGINT', async () => {
 	Log.stderr('Interrupted. Exiting gracefully.')
-	app.quit()
+	await app?.quit()
 })
 
-process.once('SIGTERM', async (code) => {
+process.once('SIGTERM', async () => {
 	Log.stderr('Terminated. Exiting gracefully.')
-	app.quit()
+	await app?.quit()
+})
+
+process.on('exit', () => {
+	Log.stderr('Exiting now.')
 })

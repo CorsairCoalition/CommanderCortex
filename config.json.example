@@ -2,6 +2,7 @@
 	"gameConfig": {
 		"GAME_SERVER_URL": "wss://botws.generals.io/",
 		"MAX_TURNS": 5000,
+		"BOT_ID_PREFIX": "cortex",
 		"userId": "RANDOMLY_GENERATED_STRING",
 		"username": "[Bot] Goatbot",
 		"customGameId": "cortex",
@@ -14,6 +15,8 @@
 	"redisConfig": {
 		"HOST": "",
 		"PORT": 443,
+		"TLS": false,
+		"EXPIRATION_TIME": 31536000,
 		"USERNAME": "",
 		"PASSWORD": ""
 	}

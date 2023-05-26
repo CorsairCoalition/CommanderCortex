@@ -4,7 +4,7 @@
 		"MAX_TURNS": 5000,
 		"BOT_ID_PREFIX": "cortex",
 		"userId": "RANDOMLY_GENERATED_STRING",
-		"username": "[Bot] Goatbot",
+		"username": "[Bot] Anonymous",
 		"customGameId": "cortex",
 		"customGameSpeed": 4,
 		"warCry": [
@@ -13,8 +13,8 @@
 		]
 	},
 	"redisConfig": {
-		"HOST": "",
-		"PORT": 443,
+		"HOST": "localhost",
+		"PORT": 6379,
 		"TLS": false,
 		"EXPIRATION_TIME": 31536000,
 		"USERNAME": "",

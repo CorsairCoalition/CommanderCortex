@@ -1,7 +1,7 @@
 {
   "name": "commander-cortex",
   "version": "1",
-  "description": "a modular generals.io bot that implements advanced learning techniques",
+  "description": "a modular generals.io bot framework for development and analysis of game strategies and actions",
   "main": "out/index.js",
   "type": "module",
   "dependencies": {

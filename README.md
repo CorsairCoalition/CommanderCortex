@@ -1,6 +1,6 @@
-# Sergeant Socket
+# Commander Cortex
 
-A message broker that connects to generals.io via socket.io, publishes all game updates to Redis, and receives command and actions from other components on Redis.
+A modular generals.io bot framework for development and analysis of game strategies and actions
 
 ## Installation
 
@@ -11,10 +11,10 @@ npm run build
 
 ## Configuration
 
-Copy `config.json.example` to `config.json` and enter your Redis configuration.
+Copy `config.json.example` to `config.json` and make updates as needed.
 
 ## Usage
 
 ```
-node app
+node . config.json
 ```

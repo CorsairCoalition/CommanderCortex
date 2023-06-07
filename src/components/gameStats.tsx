@@ -3,16 +3,6 @@ import { Text, Newline, Box } from 'ink'
 import { AppContext } from './Context.js'
 import type App from '../app.js'
 
-interface GameStateObj {
-	gamePhase: Game.Phase
-	replay_id: string
-	playerIndex: number | null
-	turn: number
-	usernames: string[] | null
-	scores: GeneralsIO.Score[] | null
-	won: boolean | null
-}
-
 interface GameCountObj {
 	pending: number
 	won: number
@@ -23,12 +13,12 @@ export default function GameStats(): JSX.Element {
 
 	let app: App = useContext(AppContext)
 	let [gameCount, setGameCount] = useState<GameCountObj>(app.gameCount)
-	let [gameState, setGameState] = useState<GameStateObj>(app.gameState)
+	let [gameState, setGameState] = useState<Game.State>(app.gameState)
 	let [replays, setReplays] = useState<string[]>([])
 
 	useEffect(() => {
 		let handleGameCountUpdate = (gameCount: GameCountObj) => setGameCount({ ...gameCount })
-		let handleGameStateUpdate = (gameState: GameStateObj) => setGameState({ ...gameState })
+		let handleGameStateUpdate = (gameState: Game.State) => setGameState({ ...gameState })
 
 		app.gameCountEventEmitter.on('update', handleGameCountUpdate)
 		app.gameStateEventEmitter.on('update', handleGameStateUpdate)

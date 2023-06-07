@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Text, Newline } from 'ink'
 import { AppContext } from './Context.js'
 import type App from '../app.js'
-import Redis from '../redis.js'
-import { Log } from '../utils.js'
+import { Redis, Log } from '@corsaircoalition/common'
 
 const ConnStatusMessages = {
 	connect: '🔌 Connecting',
@@ -16,7 +15,7 @@ const ConnStatusMessages = {
 }
 
 const GamePhaseMessages: Record<Game.Phase, string> = {
-	[Game.Phase.INITIALIZING]: '❓ Initializing',
+	[Game.Phase.INITIALIZING]: '❓ Unknown',
 	[Game.Phase.CONNECTED]: '✅ Ready to play',
 	[Game.Phase.JOINED_LOBBY]: '🚪 Waiting in Lobby',
 	[Game.Phase.PLAYING]: '⚡ Playing',
@@ -48,10 +47,11 @@ export default function ConnStatus({ customGameId }: ConnStatusProps): JSX.Eleme
 
 			setIoStatus(ConnStatusMessages.unknown)
 			setGameServerStatus(ConnStatusMessages.unknown)
+			setGamePhase(Game.Phase.INITIALIZING)
 
 			if (status === 'ready') {
 				// send a ping to SergeantSocket
-				Redis.publish(RedisData.CHANNEL.COMMAND, { status: true })
+				Redis.publish(app.botId, RedisData.CHANNEL.COMMAND, { status: true })
 			}
 		}
 
@@ -69,7 +69,7 @@ export default function ConnStatus({ customGameId }: ConnStatusProps): JSX.Eleme
 		app.gameStateEventEmitter.on('phase', handleGamePhaseUpdate)
 
 		Redis.connectionEventEmitter.on('status', handleRedisConnectionStatus)
-		Redis.subscribe(RedisData.CHANNEL.STATE, handleGameState)
+		Redis.subscribe(app.botId, RedisData.CHANNEL.STATE, handleGameState)
 
 		// initial ping
 		Redis.ping()
@@ -83,7 +83,6 @@ export default function ConnStatus({ customGameId }: ConnStatusProps): JSX.Eleme
 			app.gameStateEventEmitter.off('phase', handleGamePhaseUpdate)
 		}
 	}, [])
-
 
 	return (
 		<Text>

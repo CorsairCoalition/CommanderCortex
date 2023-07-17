@@ -57,7 +57,7 @@ function ReplayBox({ replays }: { replays: string[] }): JSX.Element {
 	return (
 		<Box flexDirection="column" overflowY='hidden' flexShrink={1000}>
 			<Text bold>Recent Games</Text><Newline />
-			{replays.map((replayId, index) => <Text key={index}>https://generals.io/replays/{replayId}</Text>)}
+			{replays.map((replayId, index) => <Text key={index}>https://bot.generals.io/replays/{replayId}</Text>)}
 		</Box>
 	)
 }

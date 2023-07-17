@@ -93,7 +93,7 @@ export default function ConnStatus({ customGameId }: ConnStatusProps): JSX.Eleme
 			GIO Server: {gameServerStatus}<Newline />
 			Game Status: {GamePhaseMessages[gamePhase]}<Newline />
 			<Newline />
-			{customGameId && <Text>Spectate or play at <Text underline color="cyan">https://generals.io/games/{customGameId}</Text></Text>}
+			{customGameId && <Text>Spectate or play at <Text underline color="cyan">https://bot.generals.io/games/{customGameId}</Text></Text>}
 		</Text>
 	)
 }

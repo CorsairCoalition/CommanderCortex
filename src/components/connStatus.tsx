@@ -21,11 +21,7 @@ const GamePhaseMessages: Record<Game.Phase, string> = {
 	[Game.Phase.PLAYING]: '⚡ Playing',
 }
 
-interface ConnStatusProps {
-	customGameId?: string
-}
-
-export default function ConnStatus({ customGameId }: ConnStatusProps): JSX.Element {
+export default function ConnStatus(): JSX.Element {
 
 	let app: App = useContext(AppContext)
 
@@ -93,7 +89,7 @@ export default function ConnStatus({ customGameId }: ConnStatusProps): JSX.Eleme
 			GIO Server: {gameServerStatus}<Newline />
 			Game Status: {GamePhaseMessages[gamePhase]}<Newline />
 			<Newline />
-			{customGameId && <Text>Spectate or play at <Text underline color="cyan">https://bot.generals.io/games/{customGameId}</Text></Text>}
+			<Text>Spectate or play at <Text underline color="cyan">{app.gameConfig.GAME_WEBAPP_URL}games/{app.gameConfig.customGameId}</Text></Text>
 		</Text>
 	)
 }

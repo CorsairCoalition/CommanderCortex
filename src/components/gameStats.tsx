@@ -47,17 +47,17 @@ export default function GameStats(): JSX.Element {
 					<Text>Outcome: {gameState.won ? '🔥 Game Won' : '😐 Game Lost'}</Text>}
 				<Newline />
 			</Text>
-			<ReplayBox replays={replays} />
+			<ReplayBox webappURL={app.gameConfig.GAME_WEBAPP_URL} replays={replays} />
 		</>
 	)
 }
 
-function ReplayBox({ replays }: { replays: string[] }): JSX.Element {
+function ReplayBox({ webappURL, replays }: { webappURL: string, replays: string[] }): JSX.Element {
 	if (!replays.length) return <></>
 	return (
 		<Box flexDirection="column" overflowY='hidden' flexShrink={1000}>
 			<Text bold>Recent Games</Text><Newline />
-			{replays.map((replayId, index) => <Text key={index}>https://bot.generals.io/replays/{replayId}</Text>)}
+			{replays.map((replayId, index) => <Text key={index}>{webappURL}replays/{replayId}</Text>)}
 		</Box>
 	)
 }

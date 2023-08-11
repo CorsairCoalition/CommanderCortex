@@ -60,7 +60,7 @@ export function UI({ app }: UIProps): JSX.Element {
 							<Box flexDirection='column' alignItems="center">
 								<Divider title="STATUS" width={40} />
 							</Box>
-							<ConnStatus customGameId='cortex' />
+							<ConnStatus />
 						</Box>
 						<Box borderStyle='round' paddingX={1} flexGrow={1} flexDirection='column'>
 							<Box flexDirection='column' alignItems="center">

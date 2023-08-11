@@ -3,7 +3,7 @@ import EventEmitter from 'node:events'
 
 export default class App {
 	public readonly botId: string
-	private readonly gameConfig: Config.Game
+	public readonly gameConfig: Config.Game
 	public gameState: GameState
 
 	public gameCount = {
